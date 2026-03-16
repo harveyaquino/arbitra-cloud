@@ -60,7 +60,7 @@ def stats():
     s["lost"] = s.get("lost") or 0
     s["pending"] = s.get("pending") or 0
     
-    by_sport = supabase.rpc("stats_by_sport").execute()
+    by_sport = supabase.rpc("stats_by_sport", {}).execute()
     s["by_sport"] = by_sport.data if by_sport.data else []
     return s
 
@@ -91,7 +91,7 @@ def pending_bets():
 
 @app.get("/api/bets/roi-over-time")
 def roi_over_time():
-    res = supabase.rpc("roi_over_time").execute()
+    res = supabase.rpc("roi_over_time", {}).execute()
     return res.data or []
 
 
