@@ -46,13 +46,23 @@ class ResolveRequest(BaseModel):
 @app.get("/api/stats")
 def stats():
     res = supabase.table("bet_stats").select("*").execute()
-    if res.data:
-        s = res.data[0]
-        # Stats por deporte
-        by_sport = supabase.rpc("stats_by_sport").execute()
-        s["by_sport"] = by_sport.data if by_sport.data else []
-        return s
-    return {}
+    s = res.data[0] if res.data else {}
+    
+    # Defaults in case the view returns null because there are no resolved bets
+    s["roi"] = s.get("roi") or 0
+    s["total_pl"] = s.get("total_pl") or 0
+    s["win_rate"] = s.get("win_rate") or 0
+    s["avg_value"] = s.get("avg_value") or 0
+    s["avg_odds"] = s.get("avg_odds") or 0
+    s["resolved"] = s.get("resolved") or 0
+    s["total_staked"] = s.get("total_staked") or 0
+    s["won"] = s.get("won") or 0
+    s["lost"] = s.get("lost") or 0
+    s["pending"] = s.get("pending") or 0
+    
+    by_sport = supabase.rpc("stats_by_sport").execute()
+    s["by_sport"] = by_sport.data if by_sport.data else []
+    return s
 
 
 @app.get("/api/bets")
