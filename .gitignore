@@ -1,0 +1,24 @@
+# Entorno
+.env
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Modelos entrenados (grandes, regenerables)
+scanner/models/arbitra_model.pkl
+
+# DB local (ya no se usa, está en Supabase)
+*.db
+
+# Node
+node_modules/
+dashboard/dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
