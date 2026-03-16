@@ -1,26 +1,15 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api/index.py",
-      "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb" }
-    },
-    {
-      "src": "api/scan.py",
-      "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb" }
-    },
-    {
-      "src": "dashboard/package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
+  "functions": {
+    "api/*.py": {
+      "runtime": "@vercel/python",
+      "maxDuration": 15
     }
-  ],
-  "routes": [
-    { "src": "/api/scan", "dest": "api/scan.py" },
-    { "src": "/api/(.*)", "dest": "api/index.py" },
-    { "src": "/(.*)",     "dest": "dashboard/$1" }
+  },
+  "rewrites": [
+    { "source": "/api/scan", "destination": "/api/scan.py" },
+    { "source": "/api/(.*)", "destination": "/api/index.py" },
+    { "source": "/(.*)",     "destination": "/dashboard/$1" }
   ],
   "crons": [
     {
